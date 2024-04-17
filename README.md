@@ -12,7 +12,7 @@ Este repositório contém um sistema de login desenvolvido com Riot.js no front-
 Para clonar este repositório, utilize o seguinte comando:
 
 bash
-git clone https://github.com/seuusuario/seurepositorio.git
+git clone https://github.com/MarceloAggio/sistema-login.git
 
 
 ## Instalando as Dependências
