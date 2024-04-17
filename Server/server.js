@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
+const path = require('path');
 
 const cadastroRoutes = require('./routes/cadastroRoutes');
 const visualizarUsuarioRoutes = require('./routes/visualizarUsuarioRoutes');
@@ -39,3 +40,4 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500).send('Erro interno do servidor');
 });
+

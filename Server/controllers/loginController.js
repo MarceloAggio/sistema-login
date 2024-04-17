@@ -40,7 +40,10 @@ module.exports = {
                 res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
 
                 // Redirecionar para a página de sucesso
-                res.redirect('localhost:7000/listarUsuario');
+                res.status(200).json({
+                    success: true,
+                    message: 'Usuários encontrados com sucesso',
+                }); 
             });
         } catch (error) {
             console.error('Erro ao realizar login:', error);

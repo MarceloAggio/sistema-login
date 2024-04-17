@@ -7,13 +7,11 @@ import { register } from 'riot';
 import App from './components/App.riot';
 import Login from './components/Login.riot';
 import Cadastro from './components/Cadastro.riot';
-import Listar from './components/ListarUsuario.riot';
 
 // Registra os componentes
 register('app', App);
 register('login', Login);
 register('cadastro', Cadastro);
-register('listar', Listar);
 
 // Renderiza o componente App na página
 // const mountApp = document.querySelector('#app');
