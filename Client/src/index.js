@@ -2,14 +2,26 @@ import "./style.css";
 import "@riotjs/hot-reload";
 import { mount } from "riot";
 import registerGlobalComponents from "./register-global-components.js";
-import configureRoutes from "./router.js"; // Importe o arquivo de roteamento
 
+import { register } from 'riot';
+import App from './components/App.riot';
+import Login from './components/Login.riot';
+import Cadastro from './components/Cadastro.riot';
+import Listar from './components/ListarUsuario.riot';
+
+// Registra os componentes
+register('app', App);
+register('login', Login);
+register('cadastro', Cadastro);
+register('listar', Listar);
+
+// Renderiza o componente App na página
+// const mountApp = document.querySelector('#app');
+// const app = register('app');
+// app.mount(mountApp);    
 
 // register
-registerGlobalComponents();
+registerGlobalComponents(App);
 
-//ROTAS
-configureRoutes();
-
-// mount all the global components found in this page
+// // Monta todos os componentes globais encontrados nesta página
 mount("[data-riot-component]");

@@ -5,7 +5,6 @@ require('dotenv').config();
 const Login = require('../models/login');
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
 module.exports = {
     async login(req, res) {
         try {
@@ -37,11 +36,11 @@ module.exports = {
 
                 const token = jwt.sign({ id: login.id }, JWT_SECRET, { expiresIn: '1h' });
 
-                return res.status(200).json({
-                    success: true,
-                    message: 'Login realizado com sucesso',
-                    token: token
-                });
+                // Armazenar o token em um cookie
+                res.cookie('token', token, { maxAge: 3600000, httpOnly: true });
+
+                // Redirecionar para a página de sucesso
+                res.redirect('localhost:7000/listarUsuario');
             });
         } catch (error) {
             console.error('Erro ao realizar login:', error);

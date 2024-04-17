@@ -1,0 +1,200 @@
+<ListarUsuario>
+    <div class="container">
+            <h1>Lista de Usuários</h1>
+            <ul class="user-list" id="userList">
+                <!-- Os usuários serão inseridos dinamicamente aqui -->
+            </ul>
+        </div>
+
+        <!-- Modal de Edição -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharModal()">&times;</span>
+                <h2>Editar Usuário</h2>
+                <form id="editForm" action="http://localhost:7000/api/usuarios/editar/:id" method="POST">
+
+                    <label for="nomeCompleto">Nome Completo:</label>
+                    <input type="text" id="nomeCompleto" name="nomeCompleto" required><br>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br>
+
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" required><br>
+
+                    <label for="tipoPerfil">Tipo de Perfil:</label>
+                    <input type="text" id="tipoPerfil" name="tipoPerfil" required><br>
+
+                    <label for="senha">Nova Senha:</label>
+                    <input type="password" id="senha" name="senha" required><br>
+
+                    <button type="submit">Salvar</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            // Função para verificar se o token está presente no localStorage
+            function checkToken() {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    // Token não encontrado, redirecionar ou aplicar lógica desejada
+                    window.location.href = 'login.html';
+                }
+            }
+
+            // Chama a função de verificação ao carregar a página
+            checkToken();
+
+            const modal = document.getElementById('editModal');
+
+            function abrirModal() {
+                modal.style.display = 'block';
+            }
+
+            function fecharModal() {
+                modal.style.display = 'none';
+            }
+
+            function validarCPF(cpf) {
+                cpf = cpf.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
+
+                if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+                    return false; // CPF inválido se não tiver 11 dígitos ou todos os dígitos iguais
+                }
+
+                let sum = 0;
+                for (let i = 0; i < 9; i++) {
+                    sum += parseInt(cpf.charAt(i)) * (10 - i);
+                }
+
+                let remainder = 11 - (sum % 11);
+                if (remainder === 10 || remainder === 11) {
+                    remainder = 0;
+                }
+
+                if (remainder !== parseInt(cpf.charAt(9))) {
+                    return false; // Primeiro dígito verificador inválido
+                }
+
+                sum = 0;
+                for (let i = 0; i < 10; i++) {
+                    sum += parseInt(cpf.charAt(i)) * (11 - i);
+                }
+
+                remainder = 11 - (sum % 11);
+                if (remainder === 10 || remainder === 11) {
+                    remainder = 0;
+                }
+
+                if (remainder !== parseInt(cpf.charAt(10))) {
+                    return false; // Segundo dígito verificador inválido
+                }
+
+                return true; // CPF válido
+            }
+
+            async function listarUsuarios() {
+                try {
+                    const response = await fetch('http://localhost:7000/api/usuarios/visualizar');
+                    const responseData = await response.json();
+
+                    const userList = document.getElementById('userList');
+                    userList.innerHTML = ''; // Limpa a lista antes de adicionar os novos itens
+
+                    if (responseData.success && Array.isArray(responseData.data)) {
+                        responseData.data.forEach(user => {
+                            const listItem = document.createElement('li');
+                            listItem.className = 'user-item';
+
+                            const userInfo = document.createElement('div');
+                            userInfo.className = 'user-info';
+                            userInfo.innerHTML = `
+                        <strong>Nome:</strong> ${user.nomeCompleto}<br>
+                        <strong>Email:</strong> ${user.email}<br>
+                        <strong>CPF:</strong> ${user.cpf}<br>
+                        <strong>Tipo de Perfil:</strong> ${user.tipoPerfil}
+                    `;
+
+                            const userActions = document.createElement('div');
+                            userActions.className = 'user-actions';
+                            userActions.innerHTML = `
+                        <button class="edit-icon" title="Editar" onclick="editarUsuario(${user.idUser})"></button>
+                        <button class="delete-icon" title="Excluir" onclick="excluirUsuario(${user.idUser})"></button>
+                    `;
+
+                            listItem.appendChild(userInfo);
+                            listItem.appendChild(userActions);
+
+                            userList.appendChild(listItem);
+                        });
+                    } else {
+                        console.error('Erro ao listar usuários:', responseData.message);
+                    }
+                } catch (error) {
+                    console.error('Erro ao listar usuários:', error);
+                }
+            }
+
+
+            function editarUsuario(userId) {
+                abrirModal();
+                const editForm = document.getElementById('editForm');
+                editForm.action = `http://localhost:7000/api/usuarios/editar/${userId}`;
+
+                // Buscar informações do usuário para preencher o formulário de edição
+                async function fetchUsuario(userId) {
+                    try {
+                        const response = await fetch(`http://localhost:7000/api/usuarios/${userId}`);
+                        const responseData = await response.json();
+
+                        if (responseData.success) {
+                            const usuario = responseData.data; // Dados do usuário
+
+                            // Preencher os campos do formulário com os dados do usuário
+                            editForm.elements['nomeCompleto'].value = usuario.nomeCompleto;
+                            editForm.elements['email'].value = usuario.email;
+                            editForm.elements['cpf'].value = usuario.cpf;
+                            editForm.elements['tipoPerfil'].value = usuario.tipoPerfil;
+
+                            // Verificar se a senha foi alterada ou não
+                            const senhaInput = editForm.elements['senha'];
+                            senhaInput.value = ''; // Limpa o campo de senha
+                            senhaInput.required = false; // Não requer senha se não for alterada
+
+                        } else {
+                            console.error('Erro ao buscar usuário:', responseData.message);
+                        }
+                    } catch (error) {
+                        console.error('Erro ao buscar usuário:', error);
+                    }
+                }
+
+                fetchUsuario(userId);
+
+            }
+
+
+            async function excluirUsuario(userId) {
+                try {
+                    const response = await fetch(`http://localhost:7000/api/usuarios/deletar/${userId}`, {
+                        method: 'DELETE',
+                    });
+                    const responseData = await response.json();
+
+                    if (responseData.success) {
+                        console.log('Usuário excluído com sucesso!');
+                        listarUsuarios();
+                    } else {
+                        console.error('Erro ao excluir usuário:', responseData.message);
+                    }
+                } catch (error) {
+                    console.error('Erro ao excluir usuário:', error);
+                }
+            }
+
+
+            listarUsuarios();
+        </script>
+
+</ListarUsuario>

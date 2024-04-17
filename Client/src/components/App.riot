@@ -1,0 +1,54 @@
+<app>
+
+  <div class="container">
+    <div class="row">
+
+      <main class="column column-60">
+        <div class="container">
+          <h1 class="titulo">Olá, seja bem vindo ao meu sistema!</h1>
+        </div>
+        <div class="container">
+          <h3 class="titulo">Abaixo está um exemplo simples de web component usando RIOT.JS</h3>
+        </div>
+        <div class="cards">
+
+          <div is="card" data-riot-component titulocard="Login" icone="fa-solid fa-user"
+            descricaocard="Tela para realizar login" linkcard="./login" titulolink="Tela de login"></div>
+
+          <div is="card" data-riot-component titulocard="Cadastro" icone="fa-solid fa-user"
+            descricaocard="Tela para realizar cadastro" linkcard="./cadastro" titulolink="Tela de cadastro">
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <router>
+    <!-- Links para as rotas -->
+    <!-- <nav>
+      <a href="/login">Home</a>
+      <a href="/cadastro">Cadastro</a>
+    </nav> -->
+
+    <!-- Componente Router para renderizar as rotas -->
+      <!-- Definição das rotas -->
+      <route path="/login"><login /></route>
+      <route path="/Cadastro"><Cadastro /></route>
+  </router>
+
+  <script>
+    import { Router, Route } from '@riotjs/route';
+    import { register } from 'riot';
+
+    export default {
+      components: { Router, Route }
+    };
+
+    // Registra os componentes Router e Route
+    register('router', Router);
+    register('route', Route);
+  </script>
+  
+</app>

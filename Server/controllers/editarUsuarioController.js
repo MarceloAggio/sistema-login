@@ -29,10 +29,11 @@ module.exports = {
                     });
                 }
 
-                return res.status(200).json({
-                    success: true,
-                    message: 'Usuário editado com sucesso'
-                });
+                // return res.status(200).json({
+                //     success: true,
+                //     message: 'Usuário editado com sucesso'
+                // });
+                res.redirect('/listarUsuario.html');
             });
         } catch (error) {
             console.error('Erro ao editar usuário:', error);

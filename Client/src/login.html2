@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <title>Login Page</title>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="http://localhost:7000/api/login/" method="post">
+
+            <h1 class="titulo">Faça Login</h1>
+
+            <div is="inputForm" data-riot-component forlabel="email" textlabel="Email :" typeinput="email" idinput="email"
+                nameinput="email">
+            </div>
+            <div is="inputForm" data-riot-component forlabel="senha" textlabel="Senha :" typeinput="password" idinput="senha"
+                nameinput="senha">
+            </div>
+
+            <button type="submit">Cadastrar</button>
+
+            <a is="cadastro" data-riot-component>Registre-se</a>
+
+        </form>
+    </div>
+
+    <script src="https://kit.fontawesome.com/9d2ba591fd.js" crossorigin="anonymous"></script>
+</body>
+</html>

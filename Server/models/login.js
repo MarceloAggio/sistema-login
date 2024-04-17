@@ -10,7 +10,7 @@ Login.getByEmail = (email, result) => {
             console.log('Erro no banco de dados', err);
             result(err, null);
         } else {
-            result(null, res[0]); 
+            result(null, res[0]);   
         }
     });
 };

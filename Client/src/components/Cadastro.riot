@@ -1,0 +1,35 @@
+<cadastro>
+   <div class="container">
+
+    <form id="cadastroForm" action="http://localhost:7000/api/cadastro/create" method="POST">
+
+      <h1 class="titulo">Formulário de Cadastro</h1>
+
+      <div is="inputForm" data-riot-component forlabel="nomeCompleto" textlabel="Nome :" typeinput="text" idinput="nome"
+        nameinput="nomeCompleto">
+      </div>
+
+      <div is="inputForm" data-riot-component forlabel="email" textlabel="Email :" typeinput="email" idinput="email"
+        nameinput="email">
+      </div>
+
+      <div is="inputForm" data-riot-component forlabel="cpf" textlabel="CPF :" typeinput="number" idinput="cpf"
+        nameinput="cpf">
+      </div>
+
+      <div is="inputForm" data-riot-component forlabel="senha" textlabel="Senha :" typeinput="password" idinput="senha"
+        nameinput="senha">
+      </div>
+
+      <div is="upload" data-riot-component>
+      </div>
+
+      <input type="hidden" name="tipoPerfil" value="admin">
+
+      
+      <button type="submit">Cadastrar</button>
+
+    </form>
+
+  </div>
+</cadastro>
