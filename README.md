@@ -1,7 +1,7 @@
 ## Autor - Marcelo Do Nascimento Aggio
 
 ## Sobre o Sistema
-O sistema é para cadastro, login e administração de usuarios, todas as rotas do backend foram testadas pelo postman, tive dificuldade na hora de criar as rotas do front-end utilizando o RiotJS, por isso tem telas que apenas mostram o status de resposta do backend.
+O sistema é para cadastro, login e administração de usuarios, todas as rotas do backend foram testadas pelo postman, tive dificuldade na hora de criar as rotas do front-end utilizando o RiotJS por falta de familiaridade com a ferramenta, por isso tem telas que apenas mostram o status de resposta do backend. não tive muitas dificuldades na hora de criar os componentes.
 
 # Sistema de Login usando Riot.js e Node.js
 
